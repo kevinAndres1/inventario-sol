@@ -1,71 +1,76 @@
 const {DataTypes } = require("sequelize");
 const sequelize = require('../connection.js');
-const Modulo = require("./Modulo");
 
-const Proteccion = sequelize.define('EquiposProteccion',{
+const Empleado = sequelize.define('Empleados',{
     codigo:{
         type:DataTypes.TEXT,
         allowNull:false,
         primaryKey:true,
         validate:{
             notNull:{
-                msg:'ingrese el codigo del equipo de proteccion'
+                msg:'ingrese el codigo del empleado'
             }
         }
     },
 
-    moduloId10:{
-        type:DataTypes.UUID,
-        allowNull:false,
-        references:{
-            model:'Modulos',
-            key:'id'
-        }
-    },
-
-    descripcion:{
+    nombres:{
         type:DataTypes.STRING,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'ingrese una descripcion'
+                msg:'ingrese los nombres del empleado'
             }
         }
     },
 
-    cantidad:{
+    apellidos:{
+        type:DataTypes.STRING,
+        allowNull:false,
+        validate:{
+            notNull:{
+                msg:'ingrese los apellidos del empleado'
+            }
+        }
+    },
+
+    loker:{
         type:DataTypes.NUMBER,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'ingrese la cantidad'
+                msg:'ingrese el numero del loker'
             }
         }
     },
 
-    entregado:{
-        type:DataTypes.BOOLEAN,
+    fechaIngreso:{
+        type:DataTypes.DATE,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'debe rrellenar el campo'
+                msg:'ingrese la fecha de ingreso'
             }
         }
     },
 
-    entregadoPor:{
+
+    cargo:{
         type:DataTypes.STRING,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'debe ingresar por quien fue entregado'
+                msg:'ingrese el cargo del empleado'
             }
         }
     },
 
-
-
-
+    departamento:{
+        type:DataTypes.STRING,
+        allowNull:false,
+        validate:{
+            notNull:'ingrese el departamento del empleado'
+        }
+    }
 });
-Proteccion.belongsTo(Modulo, {foreignKey: 'moduloId10'});
-module.exports = Proteccion;
+
+module.exports = Empleado;

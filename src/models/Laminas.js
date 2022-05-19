@@ -84,5 +84,7 @@ const Lamina = sequelize.define('Laminas',{
     }
 
 });
+
+// relacion entre 1:n entre lamina y modulo con llave foranea en el modelo a
 Lamina.belongsTo(Modulo, {foreignKey: 'moduloId5'});
 module.exports = Lamina;

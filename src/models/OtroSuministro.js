@@ -2,19 +2,19 @@ const {DataTypes } = require("sequelize");
 const sequelize = require('../connection.js');
 const Modulo = require("./Modulo");
 
-const Proteccion = sequelize.define('EquiposProteccion',{
+const OtroSuministro = sequelize.define('OtroSuministros',{
     codigo:{
         type:DataTypes.TEXT,
         allowNull:false,
         primaryKey:true,
         validate:{
             notNull:{
-                msg:'ingrese el codigo del equipo de proteccion'
+                msg:'ingrese el codigo del suministro'
             }
         }
     },
 
-    moduloId10:{
+    moduloId11:{
         type:DataTypes.UUID,
         allowNull:false,
         references:{
@@ -22,6 +22,7 @@ const Proteccion = sequelize.define('EquiposProteccion',{
             key:'id'
         }
     },
+
 
     descripcion:{
         type:DataTypes.STRING,
@@ -33,39 +34,37 @@ const Proteccion = sequelize.define('EquiposProteccion',{
         }
     },
 
-    cantidad:{
-        type:DataTypes.NUMBER,
+    entrada:{
+        type:DataTypes.FLOAT,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'ingrese la cantidad'
+                msg:'debes ingresar la entrada:'
             }
         }
     },
 
-    entregado:{
-        type:DataTypes.BOOLEAN,
+    salida:{
+        type:DataTypes.FLOAT,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'debe rrellenar el campo'
+                msg:'debes ingresar la salida:'
             }
         }
     },
 
-    entregadoPor:{
-        type:DataTypes.STRING,
+    cantidadExistente:{
+        type:DataTypes.FLOAT,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'debe ingresar por quien fue entregado'
+                msg:'debes ingresar la cantidad existente'
             }
         }
-    },
-
-
-
-
+    }
 });
-Proteccion.belongsTo(Modulo, {foreignKey: 'moduloId10'});
-module.exports = Proteccion;
+
+// relacion 1:n entre Otrosuministro y modulos
+OtroSuministro.belongsTo(Modulo, {foreignKey: 'moduloId11'});
+module.exports = OtroSuministro;
