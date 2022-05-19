@@ -41,7 +41,7 @@ let home = Vue.component('home', {
               class="cyan darken-4 lighten-5 mb-6"
             >
               <v-row
-                :align="align"
+            
                 no-gutters
                 style="height: 150px;"
               >
@@ -195,7 +195,6 @@ let home = Vue.component('home', {
       
       <v-container>
         <v-row
-          :align="align"
           no-gutters
           style="height: 150px; margin-top:100px;"
         >
