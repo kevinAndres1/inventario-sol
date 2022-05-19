@@ -21,10 +21,11 @@ let navigation = Vue.component('navigation', {
 	template: `
     <v-navigation-drawer 
         width="200"
-        app 
+        fixed
         permanent
         expand-on-hover
         color="#263043"
+        
     >
 
     <v-list class="mt-4" nav>
@@ -81,7 +82,7 @@ let navigation = Vue.component('navigation', {
         v-bind="attrs"
         v-on="on"
     >
-        <v-list-item-icon @click="toSold">
+        <v-list-item-icon >
             <v-icon color="white">mdi-account-hard-hat-outline</v-icon>
         </v-list-item-icon>
 
@@ -103,7 +104,7 @@ let navigation = Vue.component('navigation', {
         v-bind="attrs"
         v-on="on"
     >
-        <v-list-item-icon @click="toSold">
+        <v-list-item-icon >
             <v-icon color="white">mdi-biohazard</v-icon>
         </v-list-item-icon>
 
@@ -125,7 +126,7 @@ let navigation = Vue.component('navigation', {
       v-bind="attrs"
       v-on="on"
   >
-      <v-list-item-icon @click="toSold">
+      <v-list-item-icon>
           <v-icon color="white">mdi-microsoft-azure</v-icon>
       </v-list-item-icon>
 
@@ -147,7 +148,7 @@ let navigation = Vue.component('navigation', {
       v-bind="attrs"
       v-on="on"
   >
-      <v-list-item-icon @click="toSold">
+      <v-list-item-icon >
           <v-icon color="white">mdi-brush-variant</v-icon>
       </v-list-item-icon>
 
@@ -169,7 +170,7 @@ let navigation = Vue.component('navigation', {
       v-bind="attrs"
       v-on="on"
   >
-      <v-list-item-icon @click="toSold">
+      <v-list-item-icon >
           <v-icon color="white">mdi-layers-edit</v-icon>
       </v-list-item-icon>
 
@@ -191,7 +192,7 @@ let navigation = Vue.component('navigation', {
       v-bind="attrs"
       v-on="on"
   >
-      <v-list-item-icon @click="toSold">
+      <v-list-item-icon>
           <v-icon color="white">mdi-flask</v-icon>
       </v-list-item-icon>
 
@@ -213,7 +214,7 @@ let navigation = Vue.component('navigation', {
       v-bind="attrs"
       v-on="on"
   >
-      <v-list-item-icon @click="toSold">
+      <v-list-item-icon >
           <v-icon color="white">mdi-clipboard-text</v-icon>
       </v-list-item-icon>
 
@@ -234,7 +235,7 @@ let navigation = Vue.component('navigation', {
       v-bind="attrs"
       v-on="on"
   >
-      <v-list-item-icon @click="toSold">
+      <v-list-item-icon >
           <v-icon color="white">mdi-clipboard-text-clock</v-icon>
       </v-list-item-icon>
 
