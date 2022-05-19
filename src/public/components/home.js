@@ -34,112 +34,111 @@ let home = Vue.component('home', {
 
 
 	template: `
-    <template>
-        <div>
+
+        <v-container>
+
             <v-container
-            class="cyan darken-4 lighten-5 mb-6"
-        >
-        <v-row
-          :align="align"
-          no-gutters
-          style="height: 150px;"
-        >
-          <v-col
-
-          >
-            <v-card
-              class="pa-2"
-              style="margin-right:5px"
-              outlined
-              tile
+              class="cyan darken-4 lighten-5 mb-6"
             >
-            <v-list-item three-line>
-                <v-list-item-content>
-                    <div class="text-overline mb-4">
-                    Control de papeleria
-                    </div>
-                <v-list-item-title class="text-h5 mb-1">
-                Descripcion
-            </v-list-item-title>
-            <hr>
-            <br>
-                <v-list-item-subtitle>Codigo del modulo: </v-list-item-subtitle>
-                <v-list-item-subtitle>Unidad medida: </v-list-item-subtitle>
-                <v-list-item-subtitle>Canidad existente: </v-list-item-subtitle>
-                <v-list-item-subtitle>Canidad minima: </v-list-item-subtitle>
-            </v-list-item-content>
+              <v-row
+                :align="align"
+                no-gutters
+                style="height: 150px;"
+              >
+                <v-col>
+                  <v-card
+                    class="pa-2"
+                    style="margin-right:5px"
+                    outlined
+                    tile
+                  >
+                    <v-list-item three-line>
+                          <v-list-item-content>
+                              <div class="text-overline mb-4">
+                              Control de papeleria
+                              </div>
 
-            <v-list-item-avatar
-            tile
-            size="80"
-            color="blue"
-            >
-            <v-icon dark>
-            mdi-layers-edit
-            </v-icon>
-            </v-list-item-avatar>
-            </v-list-item>
+                          <v-list-item-title class="text-h5 mb-1">
+                            Descripcion
+                          </v-list-item-title>
 
-            <v-card-actions>
-            <v-btn
-              outlined
-              rounded
-              text
-              style="background-color:#007bff; color:#ffffff"
-            >
-              ver ahora!
-            </v-btn>
-            </v-card-actions>
-         </v-card>
-          </v-col>
+                        <hr>
+                        <br>
 
-          <v-col
+                        <v-list-item-subtitle>Codigo del modulo: </v-list-item-subtitle>
+                        <v-list-item-subtitle>Unidad medida: </v-list-item-subtitle>
+                        <v-list-item-subtitle>Canidad existente: </v-list-item-subtitle>
+                        <v-list-item-subtitle>Canidad minima: </v-list-item-subtitle>
+                      </v-list-item-content>
 
-          >
-          <v-card
-          class="pa-2"
-          style="margin-right:5px"
-          outlined
-          tile
-        >
-        <v-list-item three-line>
-            <v-list-item-content>
-                <div class="text-overline mb-4">
-                Control de productos
-                </div>
-            <v-list-item-title class="text-h5 mb-1">
-            Descripcion
-        </v-list-item-title>
-        <hr>
-        <br>
-            <v-list-item-subtitle>Codigo del modulo: </v-list-item-subtitle>
-            <v-list-item-subtitle>Unidad medida: </v-list-item-subtitle>
-            <v-list-item-subtitle>Canidad existente: </v-list-item-subtitle>
-            <v-list-item-subtitle>Canidad minima: </v-list-item-subtitle>
-        </v-list-item-content>
+                      <v-list-item-avatar
+                        tile
+                        size="80"
+                        color="blue"
+                      >
+                        <v-icon dark> mdi-layers-edit </v-icon>
+                      </v-list-item-avatar>
+                    </v-list-item>
 
-        <v-list-item-avatar
-        tile
-        size="80"
-        color="blue"
-        >
-        
-        <v-icon dark>
-        mdi-flask
-        </v-icon></v-list-item-avatar>
-        </v-list-item>
+                  <v-card-actions>
+                    <v-btn
+                      outlined
+                      rounded
+                      text
+                      style="background-color:#007bff; color:#ffffff"
+                    >
+                      ver ahora!
+                    </v-btn>
+                  </v-card-actions>
+                  </v-card>
+                </v-col>
 
-        <v-card-actions>
-        <v-btn
-          outlined
-          rounded
-          text
-          style="background-color:#007bff; color:#ffffff"
-        >
-          ver ahora!
-        </v-btn>
-        </v-card-actions>
-     </v-card>
+                <v-col>
+                  <v-card
+                    class="pa-2"
+                    style="margin-right:5px"
+                    outlined
+                    tile
+                  >
+                    <v-list-item three-line>
+            
+                      <v-list-item-content>
+                        <div class="text-overline mb-4">
+                          Control de productos
+                        </div>
+                        <v-list-item-title class="text-h5 mb-1">
+                          Descripcion
+                        </v-list-item-title>
+                        <hr>
+                        <br>
+                        <v-list-item-subtitle>Codigo del modulo: </v-list-item-subtitle>
+                        <v-list-item-subtitle>Unidad medida: </v-list-item-subtitle>
+                        <v-list-item-subtitle>Canidad existente: </v-list-item-subtitle>
+                        <v-list-item-subtitle>Canidad minima: </v-list-item-subtitle>
+                      </v-list-item-content>
+
+                      <v-list-item-avatar
+                        tile
+                        size="80"
+                        color="blue"
+                      >
+                        <v-icon dark>
+                          mdi-flask
+                        </v-icon>
+                    </v-list-item-avatar>
+                  </v-list-item>
+
+                  <v-card-actions>
+                    <v-btn
+                      outlined
+                      rounded
+                      text
+                      style="background-color:#007bff; color:#ffffff"
+                    >
+                      ver ahora!
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
           </v-col>
 
           <v-col
@@ -193,6 +192,7 @@ let home = Vue.component('home', {
 
         
       </v-container>
+      
       <v-container>
         <v-row
           :align="align"
@@ -280,7 +280,8 @@ let home = Vue.component('home', {
             </v-col>
         </v-row>
      </v-container>
-    </template>
+
+     </v-container>
     `
 });
 
