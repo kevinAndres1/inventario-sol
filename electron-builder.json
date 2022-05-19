@@ -1,0 +1,21 @@
+{
+  
+      "directories": {
+        "output": "build/${version}"
+      },
+      "appId": "inventorycontrolsystem",
+      "productName": "Inventory control system",
+      "asar": true,
+      "win": {
+        "target": [
+          {
+            "target": "nsis",
+            "arch": [
+              "ia32",
+              "x64"
+            ]
+          }
+        ]
+      }
+   
+  }
