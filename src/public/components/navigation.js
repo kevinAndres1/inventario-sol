@@ -10,10 +10,9 @@ let navigation = Vue.component('navigation', {
 
     methods: {
 
-
         toHome: function() { this.$router.push('/'); },
 
-        empleados: function() {this.$router.push('/empleados')},
+        empleados: function() {this.$router.push('/empleados'); },
 
     },
 
@@ -21,7 +20,7 @@ let navigation = Vue.component('navigation', {
 	template: `
     <v-navigation-drawer 
         width="200"
-        fixed
+        app
         permanent
         expand-on-hover
         color="#263043"
@@ -51,7 +50,6 @@ let navigation = Vue.component('navigation', {
       <span>Dashboard</span>
     </v-tooltip>
 
-
     <v-tooltip bottom>
     <template v-slot:activator="{ on, attrs }">
 
@@ -60,12 +58,12 @@ let navigation = Vue.component('navigation', {
           v-bind="attrs"
           v-on="on"
       >
-          <v-list-item-icon @click="empleados">
+          <v-list-item-icon>
               <v-icon color="white">mdi-account-group</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content >
-          <v-list-item-title class="text-body-1" style="color: white;">Empleados</v-list-item-title>
+          <v-list-item-title  @click="empleados" class="text-body-1" style="color: white;">Empleados</v-list-item-title>
       </v-list-item-content>
   </v-list-item>
 
