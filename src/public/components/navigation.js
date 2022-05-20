@@ -14,6 +14,22 @@ let navigation = Vue.component('navigation', {
 
         empleados: function() {this.$router.push('/empleados'); },
 
+        equipos: function(){this.$router.push('/equipos')},
+
+        acidos: function(){this.$router.push('/acidos')},
+
+        laminas: function(){this.$router.push('/laminas')},
+
+        pinturas: function(){this.$router.push('/pinturas')},
+
+        papelerias: function(){this.$router.push('/papelerias')},
+
+        productos: function(){this.$router.push('/productos')},
+
+        otros: function(){this.$router.push('/otros')},
+
+        historial: function(){this.$router.push('/historial')}
+
     },
 
 
@@ -37,12 +53,12 @@ let navigation = Vue.component('navigation', {
             v-bind="attrs"
             v-on="on"
         >
-            <v-list-item-icon @click="toHome">
+            <v-list-item-icon>
                 <v-icon color="white">mdi-view-dashboard</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
-            <v-list-item-title class="text-body-1" style="color: white;">Dashboard</v-list-item-title>
+            <v-list-item-title class="text-body-1" style="color: white;"  @click="toHome">Dashboard</v-list-item-title>
         </v-list-item-content>
     </v-list-item>
 
@@ -85,7 +101,7 @@ let navigation = Vue.component('navigation', {
         </v-list-item-icon>
 
         <v-list-item-content >
-        <v-list-item-title class="text-body-1" style="color: white;">Equipos</v-list-item-title>
+        <v-list-item-title class="text-body-1" style="color: white;" @click="equipos">Equipos</v-list-item-title>
     </v-list-item-content>
 </v-list-item>
 
@@ -107,7 +123,7 @@ let navigation = Vue.component('navigation', {
         </v-list-item-icon>
 
         <v-list-item-content >
-        <v-list-item-title class="text-body-1" style="color: white;">Acidos</v-list-item-title>
+        <v-list-item-title class="text-body-1" style="color: white;" @click="acidos">Acidos</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
@@ -129,7 +145,7 @@ let navigation = Vue.component('navigation', {
       </v-list-item-icon>
 
       <v-list-item-content >
-      <v-list-item-title class="text-body-1" style="color: white;">Laminas</v-list-item-title>
+      <v-list-item-title class="text-body-1" style="color: white;" @click="laminas">Laminas</v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
@@ -151,7 +167,7 @@ let navigation = Vue.component('navigation', {
       </v-list-item-icon>
 
       <v-list-item-content >
-      <v-list-item-title class="text-body-1" style="color: white;">Pintura</v-list-item-title>
+      <v-list-item-title class="text-body-1" style="color: white;"  @click="pinturas">Pintura</v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
@@ -173,7 +189,7 @@ let navigation = Vue.component('navigation', {
       </v-list-item-icon>
 
       <v-list-item-content >
-      <v-list-item-title class="text-body-1" style="color: white;">Papeleria</v-list-item-title>
+      <v-list-item-title class="text-body-1" style="color: white;"  @click="papelerias">Papeleria</v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
@@ -195,7 +211,7 @@ let navigation = Vue.component('navigation', {
       </v-list-item-icon>
 
       <v-list-item-content >
-      <v-list-item-title class="text-body-1" style="color: white;">Productos</v-list-item-title>
+      <v-list-item-title class="text-body-1" style="color: white;" @click="productos">Productos</v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
@@ -217,7 +233,7 @@ let navigation = Vue.component('navigation', {
       </v-list-item-icon>
 
       <v-list-item-content >
-      <v-list-item-title class="text-body-1" style="color: white;">Otros</v-list-item-title>
+      <v-list-item-title class="text-body-1" style="color: white;" @click="otros">Otros</v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
@@ -238,7 +254,7 @@ let navigation = Vue.component('navigation', {
       </v-list-item-icon>
 
       <v-list-item-content >
-      <v-list-item-title class="text-body-1" style="color: white;">Historial</v-list-item-title>
+      <v-list-item-title class="text-body-1" style="color: white;" @click="historial">Historial</v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
