@@ -5,6 +5,7 @@ const Modulo = require("./Modulo");
 const Papeleria = sequelize.define('Papelerias',{
     codigo:{
         type:DataTypes.TEXT,
+        allowNull:false,
         primaryKey:true,
         validate:{
             notNull:{
@@ -15,7 +16,7 @@ const Papeleria = sequelize.define('Papelerias',{
 
     moduloId4:{
         type:DataTypes.UUID,
-        allowNull:false,
+        allowNull:true,
         References:{
             model:'Modelos',
             key:'id'
@@ -44,22 +45,12 @@ const Papeleria = sequelize.define('Papelerias',{
 
     salidaKilos:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la salida en kilos'
-            }
-        }
+        allowNull:true
     },
 
     cantidadExistente:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la cantidad existente'
-            }
-        }
+        allowNull:true
     }
 
 });

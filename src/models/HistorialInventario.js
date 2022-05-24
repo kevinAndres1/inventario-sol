@@ -11,7 +11,7 @@ const HistorialInventario = sequelize.define('HistorialInventarios',{
 
     usuarioId:{
         type:DataTypes.UUID,
-        allowNull:false,
+        allowNull:true,
         References:{
             model:"Usuarios",
             key:'id'
@@ -52,103 +52,24 @@ const HistorialInventario = sequelize.define('HistorialInventarios',{
         },
     },
 
-    folioFactura:{
-        type:DataTypes.STRING,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar el folio de la factura'
-            }
-        }
-    },
-
-    fechaFactura:{
-        type:DataTypes.DATE,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la fecha de la factura'
-            }
-        }
-    },
-
-
-    cantidad:{
-        type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la cantidad'
-            },
-            notEmpty:{
-                msg:'debe ingresar la cantidad'
-            }
-        }
-    },
-
-
-    precioCompra:{
-        type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debe ingresar el precio de compra'
-            }
-        }
-    },
-
-    iva:{
-        type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debe ingresar el iva'
-            },
-            notEmpty:{
-                msg:'debe ingresar el iva'
-            }
-        }
-    },
+    
+  //         ------------datos de salida           ---------------//
 
 
     fechaSalida:{
         type:DataTypes.DATE,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la fecha de salida'
-            },
-            notEmpty:{
-                msg:'debes ingresar la fecha de salida'
-            }
-        }
+        allowNull:true,
     },
 
 
     responsable:{
         type:DataTypes.STRING,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar el nombre del responsable'
-            },
-            notEmpty:{
-                msg:'debe ingresar el nombre del responsable'
-            }
-        }
+        allowNull:true,
     },
 
     cantidadSalida:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la cantidad de salida'
-            },
-            notEmpty:{
-                msg:'debes ingresar la cantidad de salida'
-            }
-        }
+        allowNull:true,
     }
 });
 

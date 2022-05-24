@@ -16,7 +16,7 @@ const OtroSuministro = sequelize.define('OtroSuministros',{
 
     moduloId11:{
         type:DataTypes.UUID,
-        allowNull:false,
+        allowNull:true,
         references:{
             model:'Modulos',
             key:'id'
@@ -46,22 +46,12 @@ const OtroSuministro = sequelize.define('OtroSuministros',{
 
     salida:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la salida:'
-            }
-        }
+        allowNull:true,
     },
 
     cantidadExistente:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la cantidad existente'
-            }
-        }
+        allowNull:true,
     }
 });
 

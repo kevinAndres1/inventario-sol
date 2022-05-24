@@ -16,7 +16,7 @@ const Proteccion = sequelize.define('EquiposProteccion',{
 
     moduloId10:{
         type:DataTypes.UUID,
-        allowNull:false,
+        allowNull:true,
         references:{
             model:'Modulos',
             key:'id'
@@ -45,10 +45,16 @@ const Proteccion = sequelize.define('EquiposProteccion',{
 
     entregado:{
         type:DataTypes.BOOLEAN,
+        defaultValue:true,
+        allowNull:true,
+    },
+
+    entregadoA:{
+        type:DataTypes.TEXT,
         allowNull:false,
         validate:{
             notNull:{
-                msg:'debe rrellenar el campo'
+                msg:'debe ingresar a quien se le entrego'
             }
         }
     },

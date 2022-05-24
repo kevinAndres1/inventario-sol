@@ -10,8 +10,6 @@ const Hola_Mundo = {
 	'holamundo': function(params) {
 		try {
 
-			throw new Error('Este es un error');
-
 			return params.saludo;
 
 		} catch (error) {
@@ -19,6 +17,8 @@ const Hola_Mundo = {
 			return { message: error.message, code:0} ;
 		}
 	},
+
+	
 
 };
 

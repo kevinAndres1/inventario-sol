@@ -15,8 +15,8 @@ const Lamina = sequelize.define('Laminas',{
     },
 
     moduloId5:{
-        type:DataTypes.UUID,
-        allowNull:false,
+        type:DataTypes.BIGINT,
+        allowNull:true,
         references:{
             model:'Modulos',
             key:'id'
@@ -65,22 +65,12 @@ const Lamina = sequelize.define('Laminas',{
 
     salidaKilos:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la salida en kilos'
-            }
-        }
+        allowNull:true,
     },
 
     cantidadExistente:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la cantidad existente'
-            }
-        }
+        allowNull:true,
     }
 
 });

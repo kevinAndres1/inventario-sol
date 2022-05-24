@@ -1,3 +1,5 @@
+
+
 const {DataTypes } = require("sequelize");
 const sequelize = require('../connection.js');
 const Modulo = require("./Modulo");
@@ -16,7 +18,7 @@ const Producto = sequelize.define('Productos',{
 
     moduloId6:{
         type:DataTypes.UUID,
-        allowNull:false,
+        allowNull:true,
         references:{
             model:'Modulos',
             key:'id'
@@ -45,23 +47,13 @@ const Producto = sequelize.define('Productos',{
 
     salidaUnidad:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la salida en kilos'
-            }
-        }
+        allowNull:true,
     },
 
     cantidadExistente:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la cantidad existente'
-            }
-        }
-    }
+        allowNull:true,
+    },
 
 });
 Producto.belongsTo(Modulo, {foreignKey: 'moduloId6'});

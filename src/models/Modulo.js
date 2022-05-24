@@ -31,7 +31,7 @@ const Modulo = sequelize.define('Modulos',{
         }
     },
 
-    unidadExistante:{
+    unidadExistente:{
         type:DataTypes.FLOAT,
         allowNull:false,
         validate:{
@@ -51,7 +51,7 @@ const Modulo = sequelize.define('Modulos',{
         }
     },
 
-    costoPromadio:{
+    costoPromedio:{
         type:DataTypes.FLOAT,
         allowNull:false,
         validate:{

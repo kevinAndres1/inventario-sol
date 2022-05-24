@@ -1,8 +1,8 @@
 'use strict'
 
-//import '../utils/autocomplete.js';
-//import '';
-//import './dialog/sold_invoice_dialog.js';
+import '../utils/autocomplete.js';
+import './dialog/details_dialog.js';
+import './dialog/sold_invoice_dialog.js';
 
 // componente clients
 let home = Vue.component('home', {

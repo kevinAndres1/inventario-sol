@@ -5,6 +5,7 @@ const Modulo = require('./Modulo');
 const Pintura = sequelize.define('Pinturas',{ 
     codigo:{
         type:DataTypes.TEXT,
+        allowNull:false,
         primaryKey:true,
         validate:{
             notNull:{
@@ -15,7 +16,7 @@ const Pintura = sequelize.define('Pinturas',{
 
     moduloId3:{
         type:DataTypes.UUID,
-        allowNull:false,
+        allowNull:true,
         references:{
             model:'Modulos',
             key:'id'
@@ -44,22 +45,12 @@ const Pintura = sequelize.define('Pinturas',{
 
     salidaKilos:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la salida en kilos'
-            }
-        }
+        allowNull:true,
     },
 
     cantidadExistente:{
         type:DataTypes.FLOAT,
-        allowNull:false,
-        validate:{
-            notNull:{
-                msg:'debes ingresar la cantidad existente'
-            }
-        }
+        allowNull:true,
     }
 
 });
