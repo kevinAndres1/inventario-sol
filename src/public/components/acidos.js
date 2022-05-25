@@ -5,7 +5,7 @@
 //import './dialog/sold_invoice_dialog.js';
 
 // componente clients
-let home = Vue.component('home', {
+let acido = Vue.component('acido', {
 
   data: () => ({
     dialog: false,
@@ -17,16 +17,17 @@ let home = Vue.component('home', {
     search: "",
     hidden: false,
     headers: [
-		{ text: 'Nombre', value: 'name' },
-		{ text: 'Serial', value: 'code' },
-		{ text: 'Descripcion', value: 'description' },
-		{ text: 'Categoria', value: 'category' },
-		{ text: 'Fecha de compra', value: 'date_purchase' },
-		{ text: 'Inversión Total', value: 'total' },
+		{ text: 'Codigo', value: 'codigo' },
+		{ text: 'Descripcion', value: 'descripcion' },
+		{ text: 'Peso neto', value: 'pesoNeto' },
+		{ text: 'Unidad de medida', value: 'unidadMedida' },
+		{ text: 'Entrada en kilos', value: 'entradaKilos' },
+		{ text: 'Salida en kilos', value: 'salidaKilos' },
+		{ text: 'Cantidad existente', value: 'cantidadExistente' },
 		{ text: 'Acciones', value: 'actions', sortable: false },
     ],
-    trucks: [],
-	truck_id: null,
+    acidos: [],
+	codigo: null,
     editedIndex: -1,
     editedItem: {},
 	menu: false,
@@ -34,7 +35,7 @@ let home = Vue.component('home', {
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'Registrar Nueva Maquinaria' : 'Actualizar una Maquinaria';
+      return this.editedIndex === -1 ? 'Registrar Nuevo acido' : 'Actualizar un acido';
     },
   },
 
@@ -54,21 +55,21 @@ let home = Vue.component('home', {
 
   methods: {
     initialize: async function () {
-      this.trucks = await execute('index-trucks',{});
+      this.acidos = await execute('muestra-toxicos');
 
-      if(Math.round ( Object.keys(this.trucks).length / 16) >= 1 )
-        this.pageCount =  Math.round ( Object.keys(this.trucks).length / 16);
+      if(Math.round ( Object.keys(this.acidos).length / 16) >= 1 )
+        this.pageCount =  Math.round ( Object.keys(this.acidos).length / 16);
     },
 
     editItem: async function(item) {
-      this.editedIndex = item.id
-      this.editedItem = await execute('show-truck', this.editedIndex);
+      this.editedIndex = item.codigo
+      this.editedItem = await execute('actualizar-toxico', this.editedIndex);
       this.dialog = true
     },
 
     deleteItem: async function(item) {
-      this.editedIndex = item.id;
-      this.editedItem = await execute('show-truck', this.editedIndex);
+      this.editedIndex = item.codigo;
+      this.editedItem = await execute('borrar-toxico', this.editedIndex);
 
       if(this.editedItem.code == 0){
         alertApp({color:"error", text: this.editedItem, icon: "alert" });
@@ -160,9 +161,9 @@ let home = Vue.component('home', {
       let result = null;
       
       if (this.editedIndex > -1) {
-        result = await execute('update-truck', this.editedItem);
+        result = await execute('actualizar-toxico', this.editedItem);
       } else {
-        result = await execute('create-truck', this.editedItem);
+        result = await execute('crear-toxico', this.editedItem);
       }
 
       if(result.code === 1) {
@@ -195,7 +196,7 @@ let home = Vue.component('home', {
   
 			<v-data-table
 				:headers="headers"
-				:items="trucks"
+				:items="acidos"
 				sort-by="calories"
 				class="elevation-0"
 				hide-default-footer
@@ -206,7 +207,7 @@ let home = Vue.component('home', {
 			>
   				<template v-slot:top>
     				<v-toolbar flat >
-      					<v-toolbar-title>Maquinarias</v-toolbar-title>
+      					<v-toolbar-title>Acidos</v-toolbar-title>
 						<v-divider
 							class="mx-4"
 							inset
@@ -258,7 +259,7 @@ let home = Vue.component('home', {
 									v-bind="attrs"
 									v-on="on"
 								>
-									<v-icon> mdi-plus </v-icon>
+									<v-icon> mdi-plus </v-icon> 
 								</v-btn> 
 							</template>
 							
@@ -276,93 +277,70 @@ let home = Vue.component('home', {
 										<v-row>
 											<v-col cols="6" >
 												<v-text-field 
-												v-model="editedItem.name" 
-												label="Nombre"
-												prepend-icon="mdi-dump-truck"
+												v-model="editedItem.codigo" 
+												label="Codigo"
+												prepend-icon="mdi-barcode"
 												></v-text-field>
 											</v-col>
 
-											<v-col cols="6" >
-											<v-text-field 
-											v-model="editedItem.model" 
-											label="Modelo"
-											prepend-icon="mdi-dump-truck"
-											></v-text-field>
-										</v-col>
+											<v-col cols="12" >
+												<v-text-field 
+												v-model="editedItem.descripcion" 
+												label="Descripcion"
+												prepend-icon="mdi-biohazard"
+												></v-text-field>
+											</v-col>
 											
-											<v-col cols="12" class="mt-n3">
+											<v-col cols="6" class="mt-n3">
 												<v-text-field
-													v-model="editedItem.code"
-													label="Serial"
-													prepend-icon="mdi-barcode"
+													v-model="editedItem.pesoNeto"
+													label="Peso neto"
+													prepend-icon="mdi-scale"
 												></v-text-field>
 											</v-col>
 											
 											<v-col cols="12" >
 												<v-text-field
-													v-model="editedItem.description"
-													label="Descripción"
-													prepend-icon="mdi-playlist-edit"
+													v-model="editedItem.unidadMedida"
+													label="Unidad de medida"
+													prepend-icon="mdi-beaker-plus-outline"
 												></v-text-field>
 											</v-col>
 
 											<v-col cols="6" >
 												<v-text-field
-													v-model="editedItem.transport_cost"
-													label="Costo de Transporte"
-													prepend-icon="mdi-currency-usd"
+													v-model="editedItem.entradaKilos"
+													label="Entrada en kilos"
+													prepend-icon="mdi-call-made"
 												></v-text-field>
 											</v-col>
 
 											<v-col cols="6" >
 												<v-text-field
-													v-model="editedItem.cost"
-													label="Costo del articulo"
-													prepend-icon="mdi-currency-usd"
+													v-model="editedItem.salidaKilos"
+													label="Salida en Kilos"
+													prepend-icon="mdi-call-received"
 												></v-text-field>
 											</v-col>
 
-											<v-col cols="6" >
+											<v-col cols="12" >
 											<v-text-field
-												v-model="editedItem.vendor"
-												label="Vendedor"
-												prepend-icon="mdi-store"
+												v-model="editedItem.cantidadExistente"
+												label="Cantidad existente"
+												prepend-icon="mdi-scale-unbalanced"
 											></v-text-field>
 										</v-col>
-
-											<v-col cols="6" >
-												<v-text-field
-													v-model="editedItem.category"
-													label="Categoria"
-													prepend-icon="mdi-clipboard-list-outline"
-												></v-text-field>
-											</v-col>
 
 											<v-col cols="6" >
 												<v-menu
 													ref="menu"
 													v-model="menu"
 													:close-on-content-click="false"
-													:return-value.sync="editedItem.date_purchase"
+													:return-value.sync="editedItem.codigo"
 													transition="scale-transition"
 													offset-y
 													min-width="auto"
 												>
-													<template v-slot:activator="{ on, attrs }">
-														<v-text-field 
-															v-model="editedItem.date_purchase"
-															label="Fecha de Compra"
-															prepend-icon="mdi-calendar"
-															readonly
-															v-bind="attrs"
-															v-on="on"
-														></v-text-field>
-													</template>
-													<v-date-picker
-														v-model="editedItem.date_purchase"
-														no-title
-														scrollable
-													>
 														<v-spacer></v-spacer>
 														<v-btn
 														text
@@ -372,7 +350,7 @@ let home = Vue.component('home', {
 														<v-btn
 															text
 															color="primary"
-															@click="$refs.menu.save(editedItem.date_purchase)"
+															@click="$refs.menu.save(editedItem.codigo)"
 														> OK </v-btn>
 											  		</v-date-picker>
 												</v-menu>
@@ -397,7 +375,7 @@ let home = Vue.component('home', {
       </v-dialog>
       <v-dialog v-model="dialogDelete" max-width="600px">
         <v-card>
-          <v-card-title class="text-h5">Estas seguro que deseas eliminar este articulo?</v-card-title>
+          <v-card-title class="text-h5">Estas seguro que deseas eliminar este acido?</v-card-title>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="error" text @click="closeDelete">Cancelar</v-btn>
@@ -414,15 +392,6 @@ let home = Vue.component('home', {
   </template>
   
   <template v-slot:item.actions="{ item }">
-
-	<v-icon
-		dense
-		class="mr-2"
-		@click="openDialogSold(item)"
-		color="green"
-		>
-		mdi-truck-check
-	</v-icon>
 
     <v-icon
       dense
@@ -463,4 +432,4 @@ let home = Vue.component('home', {
   `
 });
 
-export default home;
+export default acido;

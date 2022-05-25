@@ -18,11 +18,11 @@ const toxicooperaciones = {
 
 			let toxico = await Toxico.destroy({
                 where:{
-                    codigo:codigo.codigo
+                    codigo:codigo
                 }
             });
 
-			if (empty(toxico)) throw new Error("la laminas no existe");
+			if (empty(toxico)) throw new Error("el acido no existe no existe");
 			return { message: "Eliminado Correctamente", code: 1 };
 
 		} catch (error) {
@@ -40,14 +40,14 @@ const toxicooperaciones = {
 	 'actualizar-toxico': async function (params) {
 		try {
     
-			if( empty(params.codigo) ) throw new Error('El codigo de la lamina es requerido');
+			if( empty(params.codigo) ) throw new Error('El codigo del acido es requerido');
 			if( empty(params.descripcion) ) throw new Error('la descripcion es requerida');
 			if( empty(params.pesoNeto) ) throw new Error('el peso neto es requerido');
 			if( empty( params.unidadMedida) ) throw new Error('la unidad de medida es requerida');
 			if( empty(params.entradaKilos) ) throw new Error('la entrada kilos es requerida');
 			if( empty(params.salidaKilos) ) throw new Error('la salida en kilos es requerida');
             if( empty(params.cantidadExistente) ) throw new Error('la cantidad existentes es requerida');
-
+			
 			let toxico = await Toxico.update({
                 codigo:params.codigo,
                 descripcion:params.descripcion,

@@ -11,7 +11,7 @@ let navigation = Vue.component('navigation', {
     methods: {
 
         toHome: function() { this.$router.push('/'); },
-
+        acidos: function() {this.$router.push('/acidos'); },
         empleados: function() {this.$router.push('/empleados'); },
 
     },
@@ -21,8 +21,7 @@ let navigation = Vue.component('navigation', {
     <v-navigation-drawer 
         width="200"
         app
-        permanent
-        expand-on-hover
+        permanent 
         color="#263043"
         
     >
@@ -107,7 +106,7 @@ let navigation = Vue.component('navigation', {
         </v-list-item-icon>
 
         <v-list-item-content >
-        <v-list-item-title class="text-body-1" style="color: white;">Acidos</v-list-item-title>
+        <v-list-item-title class="text-body-1" style="color: white;" @click="acidos">Acidos</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
