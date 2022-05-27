@@ -3,6 +3,7 @@ const sequelize = require('../connection.js');
 const Usuario = require('./Usuario');
 
 const HistorialInventario = sequelize.define('HistorialInventarios',{
+
     id:{
         type:DataTypes.BIGINT,
         autoIncrement:true,

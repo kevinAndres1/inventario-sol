@@ -44,8 +44,8 @@ const Proteccion = sequelize.define('EquiposProteccion',{
     },
 
     entregado:{
-        type:DataTypes.BOOLEAN,
-        defaultValue:true,
+        type:DataTypes.TEXT,
+        defaultValue:"entregado",
         allowNull:true,
     },
 

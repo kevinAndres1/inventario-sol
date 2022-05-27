@@ -18,7 +18,7 @@ const operacionesproductos = {
 
 			let producto = await Producto.destroy({
                 where:{
-                    codigo:codigo.codigo
+                    codigo:codigo
                 }
             });
 

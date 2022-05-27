@@ -18,7 +18,7 @@ const operacionespintura = {
 
 			let pintura = await Pintura.destroy({
                 where:{
-                    codigo:codigo.codigo
+                    codigo:codigo
                 }
             });
 

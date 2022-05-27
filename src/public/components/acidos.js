@@ -28,14 +28,14 @@ let acido = Vue.component('acido', {
     ],
     acidos: [],
 	codigo: null,
-    editedIndex: -1,
+    editedIndex: " ",
     editedItem: {},
 	menu: false,
   }),
 
   computed: {
     formTitle () {
-      return this.editedIndex === -1 ? 'Registrar Nuevo acido' : 'Actualizar un acido';
+      return this.editedIndex === " " ? 'Registrar Nuevo acido' : 'Actualizar un acido';
     },
   },
 
@@ -63,7 +63,7 @@ let acido = Vue.component('acido', {
 
     editItem: async function(item) {
       this.editedIndex = item.codigo
-      this.editedItem = await execute('actualizar-toxico', this.editedIndex);
+      this.editedItem = await execute('mostrar-toxico', this.editedIndex);
       this.dialog = true
     },
 
@@ -144,7 +144,7 @@ let acido = Vue.component('acido', {
 	  this.cleanForm();
       this.$nextTick(() => {
         this.initialize();
-        this.editedIndex = -1;
+        this.editedIndex = " ";
       })
     },
 
@@ -153,14 +153,14 @@ let acido = Vue.component('acido', {
       this.$nextTick(() => {
         this.initialize();
         this.cleanForm();
-        this.editedIndex = -1;
+        this.editedIndex = " ";
       })
     },
 
     save: async function() {
       let result = null;
       
-      if (this.editedIndex > -1) {
+      if (this.editedIndex != " ") {
         result = await execute('actualizar-toxico', this.editedItem);
       } else {
         result = await execute('crear-toxico', this.editedItem);

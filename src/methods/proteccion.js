@@ -18,7 +18,7 @@ const operacionesproteccion = {
 
 			let proteccion = await Proteccion.destroy({
                 where:{
-                    codigo:codigo.codigo
+                    codigo:codigo
                 }
             });
 

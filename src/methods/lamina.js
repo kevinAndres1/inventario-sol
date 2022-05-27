@@ -105,7 +105,7 @@ const laminasoperaciones = {
 				medida: params.medida,
 				kilos: params.kilos,
 				entradaKilos:params.entradaKilos,
-				salidaKilo: params.salidaKilo,
+				salidaKilos: params.salidaKilos,
 				cantidadExistente: params.cantidadExistente,
 			});
 
@@ -136,7 +136,7 @@ const laminasoperaciones = {
 
 			let lamina = await Lamina.destroy({
                 where:{
-                    codigo:codigo.codigo
+                    codigo:codigo
                 }
             });
 

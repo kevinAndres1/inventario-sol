@@ -19,7 +19,7 @@ const operacionesotrossuministros = {
 
 			let otrosuministro = await OtroSuministro.destroy({
                 where:{
-                    codigo:codigo.codigo
+                    codigo:codigo
                 }
             });
 

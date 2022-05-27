@@ -17,7 +17,7 @@ const papeleriaoperaciones = {
 	 'actualizar-papeleria': async function (params) {
 		try {
 
-			if( empty(params.codigo) ) throw new Error('El codigo de la lamina es requerido');
+			if( empty(params.codigo) ) throw new Error('El codigo de la papeleria es requerido');
 			if( empty(params.descripcion) ) throw new Error('la descripcion es requerida');
 			if( empty(params.entradaKilos) ) throw new Error('la entrada kilos es requerida');
 			if( empty(params.salidaKilos) ) throw new Error('la salida en kilos es requerida');
@@ -130,7 +130,7 @@ const papeleriaoperaciones = {
 
 			let papeleria = await Papeleria.destroy({
                 where:{
-                    codigo:codigo.codigo
+                    codigo:codigo
                 }
             });
 
