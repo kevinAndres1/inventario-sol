@@ -68,7 +68,7 @@ let pintura = Vue.component('pintura', {
 
     deleteItem: async function(item) {
       this.editedIndex = item.codigo;
-      this.editedItem = await execute('borrar-pintura', this.editedIndex);
+      this.editedItem = await execute('mostrar-pintura', this.editedIndex);
 
       if(this.editedItem.code == 0){
         alertApp({color:"error", text: this.editedItem, icon: "alert" });
@@ -205,15 +205,9 @@ let pintura = Vue.component('pintura', {
 								</v-btn> 
 									
 
-								<v-btn
-									color="primary"
-									icon
-									class="mb-2"
-									v-bind="attrs"
-									v-on="on"
-								>
-									<v-icon> mdi-plus </v-icon> 
-								</v-btn> 
+								<v-btn color="primary" icon	class="mb-2" v-bind="attrs" @click="hidden =!hidden">
+								<v-icon> mdi-magnify </v-icon>
+							</v-btn> 
 							</template>
 							
        						<v-card>

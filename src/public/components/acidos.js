@@ -17,6 +17,7 @@ let acido = Vue.component('acido', {
     search: "",
     hidden: false,
     headers: [
+
 		{ text: 'Codigo', value: 'codigo' },
 		{ text: 'Descripcion', value: 'descripcion' },
 		{ text: 'Peso neto', value: 'pesoNeto' },
@@ -69,7 +70,7 @@ let acido = Vue.component('acido', {
 
     deleteItem: async function(item) {
       this.editedIndex = item.codigo;
-      this.editedItem = await execute('borrar-toxico', this.editedIndex);
+      this.editedItem = await execute('mostrar-toxico', this.editedIndex);
 
       if(this.editedItem.code == 0){
         alertApp({color:"error", text: this.editedItem, icon: "alert" });
@@ -80,7 +81,7 @@ let acido = Vue.component('acido', {
     },
 
     deleteItemConfirm: async function() {
-      let result = await execute('destroy-truck', this.editedIndex);
+      let result = await execute('borrar-toxico', this.editedIndex);
 
 
       if(result.code == 1) {
@@ -91,38 +92,6 @@ let acido = Vue.component('acido', {
 
       this.closeDelete();
     },
-
-	formatMoney: function(value) {
-		let formatter = new Intl.NumberFormat('en-US', {
-		  style: 'currency',
-		  currency: 'USD',
-		});
-	  
-		return formatter.format(value);
-	},
-
-	openDialog: function(truck){
-		this.truck_id = truck.id;
-		this.dialogDetails = true;
-	},
-
-	closeDialog: function() {
-		this.dialogDetails = false;
-		this.truck_id = null;
-		this.initialize();
-	},
-
-	openDialogSold: function(truck){
-		this.truck_id = truck.id;
-		this.dialogSold = true;
-		console.log('hola')
-	},
-
-	closeDialogSold: function() {
-		this.dialogSold = false;
-		this.initialize();
-	},
-
 
 	cleanForm: function() {
 		this.editedItem = {
@@ -179,21 +148,6 @@ let acido = Vue.component('acido', {
 
 	template: `
   		<v-container>
-
-
-		<details-dialog
-			:active="dialogDetails"
-			:hidde="closeDialog"
-			:truck_id="truck_id"
-  		>
-  		</details-dialog>
-
-		<sold-invoice-dialog
-			:active="dialogSold"
-			:hidde="closeDialogSold"
-			:truck_id="truck_id"
-    	></sold-invoice-dialog>
-  
 			<v-data-table
 				:headers="headers"
 				:items="acidos"
@@ -252,15 +206,100 @@ let acido = Vue.component('acido', {
 								</v-btn> 
 									
 
-								<v-btn
-									color="primary"
-									icon
-									class="mb-2"
-									v-bind="attrs"
-									v-on="on"
-								>
-									<v-icon> mdi-plus </v-icon> 
+								<v-btn color="primary" icon	class="mb-2" v-bind="attrs" @click="hidden =!hidden">
+									<v-icon> mdi-magnify </v-icon>
 								</v-btn> 
+
+								
+
+								<v-dialog transition="dialog-bottom-transition" max-width="900"	>
+									<template v-slot:activator="{ on, attrs }">
+									
+										<v-btn icon class="mb-2" v-bind="attrs" v-on="on">
+											<v-icon color="red"> mdi-file </v-icon>
+										</v-btn>
+
+									</template>
+
+									<template v-slot:default="dialog">
+										<v-card>
+											<v-toolbar color="primary" dark>
+												<p class="title mt-4" >Exportar informacion en documento PDF</p>
+											</v-toolbar>
+
+											<v-card-text>
+											<v-form>
+											<v-container>
+											  <v-row>
+												<v-col cols="12" md="4">
+													<v-select
+													v-model="select_value"
+													:items="items"
+													label="Standard"
+												></v-select>
+												</v-col>
+										
+												<v-col cols="12" md="4" >
+												  <v-text-field
+													v-model="data_pdf"
+													label="Ingrese lo que desea buscar"
+												  ></v-text-field>
+												</v-col>
+										
+												
+											  </v-row>
+											</v-container>
+										  </v-form>
+
+										  <v-simple-table>
+										  <template v-slot:default>
+											<thead>
+											  <tr>
+												<th class="text-left"> Nombre </th>
+												<th class="text-left"> Codigo </th>
+												<th class="text-left"> Descripcion </th>
+												<th class="text-left"> Serial </th>
+												<th class="text-left"> Localizacion </th>
+												<th class="text-left"> Estado </th>
+												<th class="text-left"> Existencia </th>
+												<th class="text-left"> Persona asignada </th>
+											  </tr>
+											</thead>
+											<tbody>
+											  <tr
+												v-for="item in previews"
+												:key="item.id"
+											  >
+												<td>{{ item.name }}</td>
+												<td>{{ item.code }}</td>
+												<td>{{ item.description }}</td>
+												<td>{{ item.serial }}</td>
+												<td>{{ item.location }}</td>
+												<td>{{ item.state }}</td>
+												<td>{{ item.stock }}</td>
+												<td>{{ item.assigned_person }}</td>
+											  </tr>
+											</tbody>
+										  </template>
+										</v-simple-table>
+
+											</v-card-text>
+											
+											<v-card-actions >
+											<v-btn text @click="generatePDFAll" color="primary" > Exportar todo a PDF </v-btn>	
+	  											<v-spacer></v-spacer>
+												<v-btn text @click="generatePDF" color="success" > Generar PDF Personalizado </v-btn>		
+												<v-btn text  color="red" @click="dialog.value = false"> Close </v-btn>
+											</v-card-actions>
+										</v-card>
+									</template>
+							  	</v-dialog>
+
+
+
+
+
+
 							</template>
 							
        						<v-card>

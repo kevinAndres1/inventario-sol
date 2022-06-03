@@ -1,179 +1,152 @@
 'use strict'
 
-//import '../utils/autocomplete.js';
-//import '../dialog/details_dialog.js';
-//import './dialog/sold_invoice_dialog.js';
-
-// componente clients
+// componente home
 let historial = Vue.component('historial', {
 
-  data: () => ({
-    dialog: false,
-    dialogDelete: false,
-	dialogDetails: false,
-	dialogSold: false,
-    page: 1,
-    pageCount: 0,
-    search: "",
-    hidden: false,
-    headers: [
-		{ text: 'Fecha entrada', value: 'fechaEntrada' },
-		{ text: 'Descripcion entrada', value: 'descripcionEntrada' },
-		{ text: 'proveedor', value: 'proveedor' },
-		{ text: 'Fecha salida', value: 'fechaSalida' },
-        { text: 'Responsable', value: 'responsable' },
-        { text: 'Cantidad salida', value: 'cantidadSalida' },
-		{ text: 'Acciones', value: 'actions', sortable: false },
-    ],
-    historiales: [],
-	codigo: null,
-    editedIndex: " ",
-    editedItem: {},
-	menu: false,
-  }),
+	data: () => ({
+		dialog: false,
+		dialogDelete: false,
+		page: 1,
+		pageCount: 1,
+		search: "",
+		hidden: false,
 
-  computed: {
-    formTitle () {
-      return this.editedIndex === " " ? 'Registrar Nuevo historial' : 'Actualizar un historial';
-    },
-  },
+		headers: [
+			{ text: 'Fecha entrada', value: 'fechaEntrada' },
+			{ text: 'Descripcion entrada', value: 'descripcionEntrada' },
+			{ text: 'Proveedor', value: 'proveedor' },
+			{ text: 'Fecha salida', value: 'fechaSalida' },
+			{ text: 'Responsable', value: 'responsable' },
+			{ text: 'Cantidad salida', value: 'cantidadSalida' },
+			{ text: 'Acciones', value: 'actions', sortable: false },
+		],
 
-  watch: {
-    dialog (val) {
-      val || this.close()
-    },
-    dialogDelete (val) {
-      val || this.closeDelete()
-    },
-  },
+		historiales: [],
+		editedIndex: -1,
+		editedItem: {},
+  	}),
 
-  created: function() { 
-	this.cleanForm();
-	this.initialize();
-},
-
-  methods: {
-    initialize: async function () {
-      this.historiales = await execute('muestra-historial-inventarios');
-
-      if(Math.round ( Object.keys(this.historiales).length / 16) >= 1 )
-        this.pageCount =  Math.round ( Object.keys(this.historiales).length / 16);
-    },
-
-    editItem: async function(item) {
-      this.editedIndex = item.id
-      this.editedItem = await execute('mostrar-inventario', this.editedIndex);
-      this.dialog = true
-    },
-
-    deleteItem: async function(item) {
-      this.editedIndex = item.id;
-      this.editedItem = await execute('borrar-historial', this.editedIndex);
-
-      if(this.editedItem.code == 0){
-        alertApp({color:"error", text: this.editedItem, icon: "alert" });
-        this.editedItem = {id: '',name: '',lastname: '',cedula: ''};
-      }
-
-      this.dialogDelete = true
-    },
-
-    deleteItemConfirm: async function() {
-      let result = await execute('borrar-historial', this.editedIndex);
-
-
-      if(result.code == 1) {
-        alertApp({color:"success", text: result, icon: "check" }); 
-      }else{
-        alertApp({color:"error", text: result, icon: "alert" }); 
-      }
-
-      this.closeDelete();
-    },
-
-	formatMoney: function(value) {
-		let formatter = new Intl.NumberFormat('en-US', {
-		  style: 'currency',
-		  currency: 'USD',
-		});
-	  
-		return formatter.format(value);
+	computed: {
+		formTitle () {
+			return this.editedIndex === -1 ? 'Crear historial' : 'Actualizar historial';
+		},
 	},
 
-	openDialog: function(Laminas){
-		this.codigo = lamina.codigo;
-		this.dialogDetails = true;
+	watch: {
+		dialog (val) {
+			val || this.close()
+		},
+		dialogDelete (val) {
+			val || this.closeDelete()
+		},
+
+		data_pdf (val) {
+			this.preview();
+		},
 	},
 
-	closeDialog: function() {
-		this.dialogDetails = false;
-		this.codigo = null;
+	created () {
+		
+		if(localStorage.getItem('session') === null || localStorage.getItem('session') === undefined)  {
+			this.$router.push('/login');
+		}
+		
 		this.initialize();
+		this.cleanForm();
+
 	},
 
-	openDialogSold: function(laminas){
-		this.codigo = laminas.codigo;
-		this.dialogSold = true;
-		console.log('hola')
-	},
+  	methods: {
+		initialize: async function () {
+			this.historiales = await execute('muestra-historial-inventarios',{});
 
-	closeDialogSold: function() {
-		this.dialogSold = false;
-		this.initialize();
-	},
+			if(Math.round ( Object.keys(this.historiales).length / 16) >= 1)
+				this.pageCount =  Math.round ( Object.keys(this.historiales).length / 16);
+
+			console.log(this.pageCount);
+			
+		},
+
+		
+		cleanForm: function() {
+			this.editedItem = {
+				id: '',
+				name: '',
+				description: '',
+				stock: '',
+				state: '',
+				serial: '',
+				location: '',
+				code: ''			
+			}
+		},
+
+		editItem: async function(item) {
+			this.editedIndex = item.id
+			this.editedItem = await execute('mostrar-inventario', this.editedIndex);
+			this.dialog = true
+		},
+
+		deleteItem: async function(item) {
+			this.editedIndex = item.id;
+			this.editedItem = await execute('mostrar-inventario', this.editedIndex);
+
+			if(this.editedItem.code == 0){
+				alertApp({color:"error", text: this.editedItem, icon: "alert" });
+				this.cleanForm();
+			}
+			
+			this.dialogDelete = true
+		},
+
+		deleteItemConfirm: async function() {
+			let result = await execute('borrar-historial', this.editedIndex);
 
 
-	cleanForm: function() {
-		this.editedItem = {
-			id: '',
-			name: '',
-			code: '',
-			vendor: '',
-			model: '',
-			description: '',
-			date_purchase: '',
-			category: '',
-			transport_cost: ''
-        };
-	},
+			if(result.code == 1) 
+				alertApp({color:"success", text: result, icon: "check" }); 
+			else
+				alertApp({color:"error", text: result, icon: "alert" }); 
 
 
-    close () {
-      this.dialog = false;
-	  this.cleanForm();
-      this.$nextTick(() => {
-        this.initialize();
-        this.editedIndex = " ";
-      })
-    },
+			this.closeDelete();
+		},
 
-    closeDelete () {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.initialize();
-        this.cleanForm();
-        this.editedIndex = " ";
-      })
-    },
+		close () {
+			this.dialog = false;
+			this.$nextTick(() => {
+				this.initialize();
+				this.cleanForm();
+				this.editedIndex = -1;
+			});
+		},
 
-    save: async function() {
-      let result = null;
-      
-      if (this.editedIndex != " ") {
-        result = await execute('actualizar-inventario', this.editedItem);
-      } else {
-        result = await execute('crear-historial-inventario', this.editedItem);
-      }
+		closeDelete () {
+			this.dialogDelete = false;
+			this.$nextTick(() => {
+				this.initialize();
+				this.cleanForm();
+				this.editedIndex = -1;
+			});
+		},
 
-      if(result.code === 1) {
-        alertApp({color:"success", text: result, icon: "check" }); 
-        this.close();
-      }else{
-        alertApp({color:"error", text: result, icon: "alert" }); 
-      }
-       
-    },
-  },
+		save: async function() {
+			let result = null;
+		
+			if (this.editedIndex > -1) 
+				result = await execute('actualizar-inventario', this.editedItem);
+			else 
+				result = await execute('crear-historial-inventario', this.editedItem);
+
+
+			if(result.code === 1) {
+				alertApp({color:"success", text: result, icon: "check" }); 
+				this.close();
+			}else
+				alertApp({color:"error", text: result, icon: "alert" }); 
+			
+		},
+  	},
 
 
 	template: `
@@ -182,230 +155,177 @@ let historial = Vue.component('historial', {
 			<v-data-table
 				:headers="headers"
 				:items="historiales"
-				sort-by="calories"
 				class="elevation-0"
 				hide-default-footer
 				@page-count="pageCount = $event"
 				:page.sync="page"
-				:items-per-page="16"
+				:items-per-page="14"
 				:search="search"
 			>
   				<template v-slot:top>
-    				<v-toolbar flat >
-      					<v-toolbar-title>Historial de suminitros</v-toolbar-title>
-						<v-divider
-							class="mx-4"
-							inset
-							vertical
-						></v-divider>
+					<v-toolbar flat >
+	  					<v-toolbar-title>Historial de inventario</v-toolbar-title>
+						<v-divider class="mx-4" inset vertical></v-divider>
 
-						<v-scroll-x-reverse-transition>
-						<v-text-field
-							v-show="hidden"
-							v-model="search"
-							append-icon="mdi-magnify"
-							label="Buscar"
-							single-line
-							hide-details
-						></v-text-field>
-						</v-scroll-x-reverse-transition>
+	  					<v-scroll-x-reverse-transition>
+							<v-text-field
+								v-show="hidden"
+								v-model="search"
+								append-icon="mdi-magnify"
+								label="Buscar"
+								single-line
+								hide-details
+							></v-text-field>
+	  					</v-scroll-x-reverse-transition>
 
-      					<v-spacer></v-spacer>
-      
-      					<v-dialog v-model="dialog" max-width="500px" >
+	  					<v-spacer></v-spacer>
+	  
+	  					<v-dialog v-model="dialog" max-width="500px" >
 							<template v-slot:activator="{ on, attrs }">
-
-  								
-								<v-btn
-									color="primary"
-									icon
-									class="mb-2"
-									v-bind="attrs"
-									v-on="on"
-								>
-									<v-icon> mdi-plus </v-icon>
-								</v-btn> 
-
-								<v-btn
-									color="primary"
-									icon
-									class="mb-2"
-									v-bind="attrs"
-									@click="initialize"
-								>
-									<v-icon> mdi-reload </v-icon>
-								</v-btn> 
-									
-
-								<v-btn
-									color="primary"
-									icon
-									class="mb-2"
-									v-bind="attrs"
-									v-on="on"
-								>
+								
+								<v-btn color="primary" icon class="mb-2" v-bind="attrs"	v-on="on"> 
 									<v-icon> mdi-plus </v-icon> 
 								</v-btn> 
-							</template>
-							
-       						<v-card>
-							
-							   <v-card-title>
-							   <span class="text-h5">{{ formTitle }}</span>
-							   <v-spacer></v-spacer>
-							   <v-btn color="red darken-1" class="mr-n4" text @click="close" > <v-icon>mdi-close-thick</v-icon> </v-btn>
-								</v-card-title>
-								<v-divider></v-divider>
 
-          						<v-card-text>
+								<v-btn color="primary" icon class="mb-2" v-bind="attrs" @click="initialize" >
+									<v-icon> mdi-reload </v-icon>
+								</v-btn> 
+
+
+								<v-btn color="primary" icon	class="mb-2" v-bind="attrs" @click="hidden =!hidden">
+									<v-icon> mdi-magnify </v-icon>
+								</v-btn> 
+							</template>
+		
+							<v-card>
+
+								<v-card-title>
+									<span class="text-h5">{{ formTitle }}</span>
+								</v-card-title>
+
+								<v-card-text>
 									<v-container>
 										<v-row>
+
 											<v-col cols="6" >
-												<v-text-field 
-												v-model="editedItem.fechaEntrada" 
-												label="fecha de entrada"
-												prepend-icon="mdi-apps-box"
+												<v-text-field
+													v-model="editedItem.fechaEntrada"
+													label="Fecha de entrada"
+													type='date'
+													color='blue'
 												></v-text-field>
 											</v-col>
 
 											<v-col cols="12" >
 												<v-text-field
 													v-model="editedItem.descripcionEntrada"
-													label="Descipcion entrada"
-													prepend-icon="mdi-clipboard-text-clock"
+													label="Descripcion de entrada"
 												></v-text-field>
 											</v-col>
+
+											
+											<v-col cols="6" >
+												<v-text-field
+													v-model="editedItem.proveedor"
+													label="Proveedor"
+												></v-text-field>
+											</v-col>
+
+																		
+											<v-col cols="6" >
+												<v-text-field
+													v-model="editedItem.fechaSalida"
+													label="fecha de salida"
+													type='date'
+													color='blue'
+												></v-text-field>
+											</v-col>
+
+																		
+											<v-col cols="12" >
+												<v-text-field
+													v-model="editedItem.responsable"
+													label="Responsable"
+												></v-text-field>
+											</v-col>
+
 
 											<v-col cols="12" >
 												<v-text-field
-													v-model="editedItem.proveedor"
-													label="proveedor"
-													prepend-icon="mdi-account-settings"
+													v-model="editedItem.cantidadSalida"
+													label="Cantidad de salida"
 												></v-text-field>
 											</v-col>
-
-											<v-col cols="6" >
-											<v-text-field
-												v-model="editedItem.fechaSalida"
-												label="Fecha de salida"
-												prepend-icon="mdi-apps-box"
-											></v-text-field>
-										</v-col>
-
-                                        <v-col cols="6" >
-                                        <v-text-field
-                                            v-model="editedItem.responsable"
-                                            label="Responsable"
-                                            prepend-icon="mdi-account-tie"
-                                        ></v-text-field>
-                                    </v-col>
-
-                                    <v-col cols="6" >
-                                    <v-text-field
-                                        v-model="editedItem.cantidadSalida"
-                                        label="Cantidad de salida"
-                                        prepend-icon="mdi-scale-unbalanced"
-                                    ></v-text-field>
-                                </v-col>
-											<v-col cols="6" >
-												<v-menu
-													ref="menu"
-													v-model="menu"
-													:close-on-content-click="false"
-													:return-value.sync="editedItem.codigo"
-													transition="scale-transition"
-													offset-y
-													min-width="auto"
-												>
-														<v-spacer></v-spacer>
-														<v-btn
-														text
-														color="primary"
-														@click="menu = false"
-														> Cancel </v-btn>
-														<v-btn
-															text
-															color="primary"
-															@click="$refs.menu.save(editedItem.codigo)"
-														> OK </v-btn>
-											  		</v-date-picker>
-												</v-menu>
-										  	</v-col>
-
+											
 										</v-row>
 									</v-container>
-          						</v-card-text>
+								</v-card-text>
 
+		  						<v-card-actions>
+								
+									<v-spacer></v-spacer>
+									<v-btn color="error" text @click="close" >
+										Cancelar
+									</v-btn>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="success"
-              text
-              @click="save"
-            >
-              Guardar
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="dialogDelete" max-width="600px">
-        <v-card>
-          <v-card-title class="text-h5">Estas seguro que deseas eliminar este suministro?</v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="error" text @click="closeDelete">Cancelar</v-btn>
-            <v-btn color="success" text @click="deleteItemConfirm">Confirmar</v-btn>
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-toolbar>
-  </template>
+									<v-btn color="success" text @click="save" >
+										Guardar
+									</v-btn>
 
-  <template v-slot:item.total="{item}">
-  {{formatMoney(item.total)}}
-  </template>
+		  						</v-card-actions>
+							</v-card>
+	 					</v-dialog>
+	  
+						<v-dialog v-model="dialogDelete" max-width="600px">
+							<v-card>
+								<v-card-title class="text-h5">
+									Estas seguro que deseas eliminar este Historial?
+								</v-card-title>
+							
+								<v-card-actions>
+									<v-spacer></v-spacer>
+									
+									<v-btn color="error" text @click="closeDelete">
+										Cancelar
+									</v-btn>
+
+									<v-btn color="success" text @click="deleteItemConfirm">
+										Confirmar
+									</v-btn>
+
+									<v-spacer></v-spacer>
+
+								</v-card-actions>
+							</v-card>
+	  					</v-dialog>
+					</v-toolbar>
+  				</template>
   
-  <template v-slot:item.actions="{ item }">
+				<template v-slot:item.actions="{ item }">
 
-    <v-icon
-      dense
-      class="mr-2"
-      @click="editItem(item)"
-      color="primary"
-    >
-      mdi-pencil
-    </v-icon>
+					<v-icon dense class="mr-2" @click="editItem(item)" color="primary">
+						mdi-pencil
+					</v-icon>
 
-	<v-icon
-      dense
-      class="mr-2"
-      @click="openDialog(item)"
-      color="primary"
-    >
-	mdi-clipboard-list-outline
-    </v-icon>
+					<v-icon dense @click="deleteItem(item)" color="error" >
+						mdi-delete
+					</v-icon>
 
-    <v-icon
-      dense
-      @click="deleteItem(item)"
-      color="error"
-    >
-      mdi-delete
-    </v-icon>
-  </template>
+				</template>
 
-</v-data-table>
-<div class="text-center pt-2">
-      <v-pagination
-        v-model="page"
-        :length="pageCount"
-      ></v-pagination>
-    </div>
+			</v-data-table>
+
+			<div class="text-center pt-2" >
+				<v-pagination
+					v-model="page"
+					:length="pageCount"
+				></v-pagination>
+			</div>
+
   </v-container>
 
   `
 });
 
 export default historial;
+

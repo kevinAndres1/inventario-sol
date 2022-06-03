@@ -69,7 +69,7 @@ let lamina = Vue.component('lamina', {
 
     deleteItem: async function(item) {
       this.editedIndex = item.codigo;
-      this.editedItem = await execute('borrar-lamina', this.editedIndex);
+      this.editedItem = await execute('mostrar-lamina', this.editedIndex);
 
       if(this.editedItem.code == 0){
         alertApp({color:"error", text: this.editedItem, icon: "alert" });
@@ -100,29 +100,6 @@ let lamina = Vue.component('lamina', {
 	  
 		return formatter.format(value);
 	},
-
-	openDialog: function(Laminas){
-		this.codigo = lamina.codigo;
-		this.dialogDetails = true;
-	},
-
-	closeDialog: function() {
-		this.dialogDetails = false;
-		this.codigo = null;
-		this.initialize();
-	},
-
-	openDialogSold: function(laminas){
-		this.codigo = laminas.codigo;
-		this.dialogSold = true;
-		console.log('hola')
-	},
-
-	closeDialogSold: function() {
-		this.dialogSold = false;
-		this.initialize();
-	},
-
 
 	cleanForm: function() {
 		this.editedItem = {
@@ -179,20 +156,6 @@ let lamina = Vue.component('lamina', {
 
 	template: `
   		<v-container>
-
-
-		<details-dialog
-			:active="dialogDetails"
-			:hidde="closeDialog"
-			:truck_id="truck_id"
-  		>
-  		</details-dialog>
-
-		<sold-invoice-dialog
-			:active="dialogSold"
-			:hidde="closeDialogSold"
-			:truck_id="truck_id"
-    	></sold-invoice-dialog>
   
 			<v-data-table
 				:headers="headers"
@@ -252,15 +215,9 @@ let lamina = Vue.component('lamina', {
 								</v-btn> 
 									
 
-								<v-btn
-									color="primary"
-									icon
-									class="mb-2"
-									v-bind="attrs"
-									v-on="on"
-								>
-									<v-icon> mdi-plus </v-icon> 
-								</v-btn> 
+								<v-btn color="primary" icon	class="mb-2" v-bind="attrs" @click="hidden =!hidden">
+								<v-icon> mdi-magnify </v-icon>
+							</v-btn> 
 							</template>
 							
        						<v-card>
