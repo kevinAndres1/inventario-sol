@@ -17,8 +17,12 @@ let acido = Vue.component('acido', {
     search: "",
     hidden: false,
     headers: [
-
-		{ text: 'Codigo', value: 'codigo' },
+		{
+			text: 'Codigo',
+			align: 'start',
+			sortable: false,
+			value: 'codigo',
+		},
 		{ text: 'Descripcion', value: 'descripcion' },
 		{ text: 'Peso neto', value: 'pesoNeto' },
 		{ text: 'Unidad de medida', value: 'unidadMedida' },
@@ -27,6 +31,14 @@ let acido = Vue.component('acido', {
 		{ text: 'Cantidad existente', value: 'cantidadExistente' },
 		{ text: 'Acciones', value: 'actions', sortable: false },
     ],
+	previews: [],
+	data_pdf: null,
+	pdf: {},
+	select_value: null,
+	items: [
+		{ text: 'Codigo', value: 'codigo'},
+	],
+
     acidos: [],
 	codigo: null,
     editedIndex: " ",
@@ -126,6 +138,42 @@ let acido = Vue.component('acido', {
       })
     },
 
+	generatePDFAll: async function() {
+		
+		let result = await execute('generate-pdf', {export_all: 1});
+
+		if(result.code == 1) 
+			alertApp({color:"success", text: result, icon: "check" }); 
+		else
+			alertApp({color:"error", text: result, icon: "alert" }); 
+
+	},
+
+
+	generatePDF: async function() {
+
+		if( this.select_value == 'codigo'){
+			this.pdf.code = true;
+		}
+		else if ( this.select_value == 'assigned_person'){
+			this.pdf.assigned_person = true;
+			this.pdf.code = null;
+		}
+
+		this.pdf.data = this.data_pdf;
+			
+		let result = await execute('generate-pdf', this.pdf);
+
+		if(result.code == 1) 
+			alertApp({color:"success", text: result, icon: "check" }); 
+		else
+			alertApp({color:"error", text: result, icon: "alert" }); 
+
+	},
+
+
+
+
     save: async function() {
       let result = null;
       
@@ -210,96 +258,9 @@ let acido = Vue.component('acido', {
 									<v-icon> mdi-magnify </v-icon>
 								</v-btn> 
 
-								
-
-								<v-dialog transition="dialog-bottom-transition" max-width="900"	>
-									<template v-slot:activator="{ on, attrs }">
-									
-										<v-btn icon class="mb-2" v-bind="attrs" v-on="on">
+								<v-btn icon class="mb-2" v-bind="attrs" @click="generatePDFAll">
 											<v-icon color="red"> mdi-file </v-icon>
-										</v-btn>
-
-									</template>
-
-									<template v-slot:default="dialog">
-										<v-card>
-											<v-toolbar color="primary" dark>
-												<p class="title mt-4" >Exportar informacion en documento PDF</p>
-											</v-toolbar>
-
-											<v-card-text>
-											<v-form>
-											<v-container>
-											  <v-row>
-												<v-col cols="12" md="4">
-													<v-select
-													v-model="select_value"
-													:items="items"
-													label="Standard"
-												></v-select>
-												</v-col>
-										
-												<v-col cols="12" md="4" >
-												  <v-text-field
-													v-model="data_pdf"
-													label="Ingrese lo que desea buscar"
-												  ></v-text-field>
-												</v-col>
-										
-												
-											  </v-row>
-											</v-container>
-										  </v-form>
-
-										  <v-simple-table>
-										  <template v-slot:default>
-											<thead>
-											  <tr>
-												<th class="text-left"> Nombre </th>
-												<th class="text-left"> Codigo </th>
-												<th class="text-left"> Descripcion </th>
-												<th class="text-left"> Serial </th>
-												<th class="text-left"> Localizacion </th>
-												<th class="text-left"> Estado </th>
-												<th class="text-left"> Existencia </th>
-												<th class="text-left"> Persona asignada </th>
-											  </tr>
-											</thead>
-											<tbody>
-											  <tr
-												v-for="item in previews"
-												:key="item.id"
-											  >
-												<td>{{ item.name }}</td>
-												<td>{{ item.code }}</td>
-												<td>{{ item.description }}</td>
-												<td>{{ item.serial }}</td>
-												<td>{{ item.location }}</td>
-												<td>{{ item.state }}</td>
-												<td>{{ item.stock }}</td>
-												<td>{{ item.assigned_person }}</td>
-											  </tr>
-											</tbody>
-										  </template>
-										</v-simple-table>
-
-											</v-card-text>
-											
-											<v-card-actions >
-											<v-btn text @click="generatePDFAll" color="primary" > Exportar todo a PDF </v-btn>	
-	  											<v-spacer></v-spacer>
-												<v-btn text @click="generatePDF" color="success" > Generar PDF Personalizado </v-btn>		
-												<v-btn text  color="red" @click="dialog.value = false"> Close </v-btn>
-											</v-card-actions>
-										</v-card>
-									</template>
-							  	</v-dialog>
-
-
-
-
-
-
+								</v-btn>
 							</template>
 							
        						<v-card>
