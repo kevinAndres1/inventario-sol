@@ -22,15 +22,17 @@ const operacionesmodulos = {
 			if( empty(params.cantidadMinima) ) throw new Error('la cantidad minima es requerida');
 			if( empty(params.costoPromedio) ) throw new Error('el costo promedio es requerido');
 
-			let modulo = await Modulo.findByPk(params.id);
-
-			modulo.id = modulo.id;
-			modulo.nombre = modulo.nombre;
-			modulo.unidadMedida = modulo.unidadMedida;
-            modulo.cantidadMinima = modulo.cantidadMinima;
-            modulo.costoPromedio = modulo.costoPromedio;
-
-			await modulo.save();
+			let modulo = await Modulo.update({
+				id:params.id,
+				nombre:params.nombre,
+				unidadMedida:params.unidadMedida,
+            	cantidadMinima:params.cantidadMinima,
+            	costoPromedio:params.costoPromedio
+			},{
+				where:{
+					id:params.id
+				}
+			});
 
 			return { message: "modulo actualizado con exito!", code: 1,};
 
@@ -54,7 +56,7 @@ const operacionesmodulos = {
 		'mostar-todos-modulos': async function () {
 			try {
 
-                let modulo = await Modulo.findAll();
+                let modulo = await Modulo.findAll({raw:true});
 				return modulo;
 	
 			} catch (error) {
@@ -129,7 +131,7 @@ const operacionesmodulos = {
 
 			let modulo = await Modulo.findByPk(codigo);
 
-			if (empty(modulo)) throw new Error("El empleado  no existe");
+			if (empty(modulo)) throw new Error("El modulo  no existe");
 
 			await modulo.destroy();
 			

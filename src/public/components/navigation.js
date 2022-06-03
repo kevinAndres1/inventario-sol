@@ -47,12 +47,12 @@ let navigation = Vue.component('navigation', {
             </v-list-item-icon>
 
             <v-list-item-content>
-            <v-list-item-title class="text-body-1" style="color: white;" @click="toHome">Dashboard</v-list-item-title>
+            <v-list-item-title class="text-body-1" style="color: white;" @click="toHome">Principal</v-list-item-title>
         </v-list-item-content>
     </v-list-item>
 
       </template>
-      <span>Dashboard</span>
+      <span>Pagina principal</span>
     </v-tooltip>
   
   <v-tooltip bottom>

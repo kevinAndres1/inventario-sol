@@ -3,6 +3,10 @@
 const log = require('electron-log');
 const empty = require('../helpers/empty.js');
 const Historialinventario = require('../models/HistorialInventario');
+const { jsPDF } = require("jspdf"); 
+const fs = require('fs');
+const path = require('path');
+const moments = require('moment');
 
 const historialinventariooperaciones = {
 
@@ -113,9 +117,7 @@ const historialinventariooperaciones = {
 			return { message: error.message, code: 0 };
 		}
 	},
-
-
-
+	
       /**
 	 * Metodo que crea una nueva lamina
 	 * 
@@ -149,6 +151,9 @@ const historialinventariooperaciones = {
 
 		}
     },
+
+
+
 }
 
 module.exports = historialinventariooperaciones;

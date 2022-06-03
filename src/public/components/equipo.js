@@ -68,7 +68,7 @@ let equipo = Vue.component('equipo', {
 
     deleteItem: async function(item) {
       this.editedIndex = item.codigo;
-      this.editedItem = await execute('borrar-equipo-asignado', this.editedIndex);
+      this.editedItem = await execute('mostrar-equipo-proteccion', this.editedIndex);
 
       if(this.editedItem.code == 0){
         alertApp({color:"error", text: this.editedItem, icon: "alert" });
@@ -199,16 +199,17 @@ let equipo = Vue.component('equipo', {
 							vertical
 						></v-divider>
 
+
 						<v-scroll-x-reverse-transition>
-						<v-text-field
-							v-show="hidden"
-							v-model="search"
-							append-icon="mdi-magnify"
-							label="Buscar"
-							single-line
-							hide-details
-						></v-text-field>
-						</v-scroll-x-reverse-transition>
+							<v-text-field
+								v-show="hidden"
+								v-model="search"
+								append-icon="mdi-magnify"
+								label="Buscar"
+								single-line
+								hide-details
+							></v-text-field>
+	  					</v-scroll-x-reverse-transition>
 
       					<v-spacer></v-spacer>
       
@@ -237,14 +238,8 @@ let equipo = Vue.component('equipo', {
 								</v-btn> 
 									
 
-								<v-btn
-									color="primary"
-									icon
-									class="mb-2"
-									v-bind="attrs"
-									v-on="on"
-								>
-									<v-icon> mdi-plus </v-icon> 
+								<v-btn color="primary" icon	class="mb-2" v-bind="attrs" @click="hidden =!hidden">
+									<v-icon> mdi-magnify </v-icon>
 								</v-btn> 
 							</template>
 							
