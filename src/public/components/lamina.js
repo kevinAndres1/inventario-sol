@@ -92,14 +92,39 @@ let lamina = Vue.component('lamina', {
       this.closeDelete();
     },
 
-	formatMoney: function(value) {
-		let formatter = new Intl.NumberFormat('en-US', {
-		  style: 'currency',
-		  currency: 'USD',
-		});
-	  
-		return formatter.format(value);
+	generatePDFAll: async function() {
+		
+		let result = await execute('generate-pdf-lamina', {export_all: 1});
+
+		if(result.code == 1) 
+			alertApp({color:"success", text: result, icon: "check" }); 
+		else
+			alertApp({color:"error", text: result, icon: "alert" }); 
+
 	},
+
+
+	generatePDF: async function() {
+
+		if( this.select_value == 'codigo'){
+			this.pdf.code = true;
+		}
+		else if ( this.select_value == 'assigned_person'){
+			this.pdf.assigned_person = true;
+			this.pdf.code = null;
+		}
+
+		this.pdf.data = this.data_pdf;
+			
+		let result = await execute('generate-pdf-lamina', this.pdf);
+
+		if(result.code == 1) 
+			alertApp({color:"success", text: result, icon: "check" }); 
+		else
+			alertApp({color:"error", text: result, icon: "alert" }); 
+
+	},
+
 
 	cleanForm: function() {
 		this.editedItem = {
@@ -168,6 +193,7 @@ let lamina = Vue.component('lamina', {
 				:items-per-page="16"
 				:search="search"
 			>
+	
   				<template v-slot:top>
     				<v-toolbar flat >
       					<v-toolbar-title>Laminas</v-toolbar-title>
@@ -216,8 +242,13 @@ let lamina = Vue.component('lamina', {
 									
 
 								<v-btn color="primary" icon	class="mb-2" v-bind="attrs" @click="hidden =!hidden">
-								<v-icon> mdi-magnify </v-icon>
-							</v-btn> 
+									<v-icon> mdi-magnify </v-icon>
+								</v-btn>
+								
+								<v-btn icon class="mb-2" v-bind="attrs" @click="generatePDFAll">
+        							<v-icon color="red"> mdi-file </v-icon>
+      							</v-btn>
+
 							</template>
 							
        						<v-card>

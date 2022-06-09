@@ -10,7 +10,7 @@ const moments = require('moment');
 
 const toxicooperaciones = {
 
-
+	
 		/**
 	 * funcion que genera un reporte en pdf
 	 * 
@@ -20,37 +20,21 @@ const toxicooperaciones = {
 		 'generate-pdf': async function(params) {
 			try {
 				let data = {};
-
-				if( empty(params.export_all ) ) {
-					let where = {};
-				
-					if( params.codigo != null )
-						where.codigo = params.data;
-					else if( params.assigned_person != null)
-						where.assigned_person = params.data;
-					console.log(where);
-
-					data = await Toxico.findAll({
-						where: where,
-						raw: true
-					});
-				
-				}else if( params.export_all == 1) {
-				 	data = await Toxico.findAll({raw: true});
-				}
+				data = await Toxico.findAll({raw: true});
+		
 
 				let generateData = function() {
 					let result = [];
 
 					for (let i = 0; i < data.length; i += 1) {
 						result.push(Object.assign({}, {
-							Codigo: String(data[i].codigo),
+							ID: String(data[i].codigo),
 							Descripcion: String(data[i].descripcion),
-							pesoNeto: String(data[i].pesoNeto),
-							UnidadMedida: String(data[i].UnidadMedida),
+							PesoNeto: String(data[i].pesoNeto),
+							UnidadMedida: String(data[i].unidadMedida),
 							EntradaKilos: String(data[i].entradaKilos),
-							salidaKilos: String(data[i].salidaKilos),
-							cantidadExistente: String(data[i].cantidadExistente),
+							SalidaKilos: String(data[i].salidaKilos),
+							CantidadExistente: String(data[i].cantidadExistente),
 							
 						}));
 					}
@@ -58,37 +42,21 @@ const toxicooperaciones = {
 					return  result;
 				};
 				  
-				function createHeaders(keys) {
-					let result = [];
-
-					for (let i = 0; i < keys.length; i += 1) {
-						
-						result.push({
-							codigo: keys[i],
-							descripcion: keys[i],
-							prompt: keys[i],
-							width: 100,
-							align: "center",
-							padding: 0
-					  	});
-					}
-					return result;
-				}
-				  
-				let headers = createHeaders([
-					"Codigo",
+				let headers =[
+					"ID",
 					"Descripcion",
-					"Peso neto",
-					"unidad de medida",
-					"Entrada en kilos",
-					"Salida en kilos",
-					"Cantidad existente",
-				]);
+					"PesoNeto",
+					"UnidadMedida",
+					"EntradaKilos",
+					"SalidaKilos",
+					"CantidadExistente"
+
+				];
 				
 				let image = fs.readFileSync('./logo.png').toString('base64'); 
 
-				  
-				let doc = new jsPDF('p', 'pt', 'a4');
+				
+				let doc = new jsPDF('l', 'pt', 'a4');
 				doc.addImage(image, 'png', 70, 80, 100, 50);
 				
 				moments.locale('es-do');
@@ -96,19 +64,22 @@ const toxicooperaciones = {
 				doc.text(moments().format('LLLL'), 20, 20);
 
 				doc.setFontSize(10);
-				doc.text("REPÚBLICA BOLIVARIANA DE VENEZUELA", 230, 102);
+				doc.text("ESTANTERIAS EL SOL C.A", 230, 102);
 
 				doc.setFontSize(10);
-				doc.text("UNIVERSIDAD NACIONAL EXPERIMENTAL RÓMULO GALLEGOS", 180, 115);
-
-				doc.setFontSize(10);
-				doc.text("AREA DE INGENIERIA CIVIL", 250, 128);
+				doc.text("RIF:j-07554653-9", 250, 128);
 
 				doc.setFont("arial", "bold");
 				doc.setFontSize(12);
-				doc.text("REPORTE DE INVENTARIO", 230, 180);
+				doc.text("REPORTE DE INVENTARIO DEL MODULO DE ACIDOS", 4, 210);
 
-				doc.table(4, 230, generateData(), headers, { autoSize: true });
+				doc.table(4, 230, generateData(), headers, {
+					left:300,
+					top:0,
+					right:300,
+					bottom: 0,
+					width: 2000,
+					});
 
 								
 				if(!fs.existsSync('./export_pdf'))

@@ -137,6 +137,40 @@ let otro = Vue.component('otro', {
 	},
 
 
+	generatePDFAll: async function() {
+		
+		let result = await execute('generate-pdf-otro-suministro', {export_all: 1});
+
+		if(result.code == 1) 
+			alertApp({color:"success", text: result, icon: "check" }); 
+		else
+			alertApp({color:"error", text: result, icon: "alert" }); 
+
+	},
+
+
+	generatePDF: async function() {
+
+		if( this.select_value == 'codigo'){
+			this.pdf.code = true;
+		}
+		else if ( this.select_value == 'assigned_person'){
+			this.pdf.assigned_person = true;
+			this.pdf.code = null;
+		}
+
+		this.pdf.data = this.data_pdf;
+			
+		let result = await execute('generate-pdf-otro-suministro', this.pdf);
+
+		if(result.code == 1) 
+			alertApp({color:"success", text: result, icon: "check" }); 
+		else
+			alertApp({color:"error", text: result, icon: "alert" }); 
+
+	},
+
+
     close () {
       this.dialog = false;
 	  this.cleanForm();
@@ -237,8 +271,12 @@ let otro = Vue.component('otro', {
 									
 
 								<v-btn color="primary" icon	class="mb-2" v-bind="attrs" @click="hidden =!hidden">
-								<v-icon> mdi-magnify </v-icon>
-							</v-btn> 
+									<v-icon> mdi-magnify </v-icon>
+								</v-btn> 
+
+								<v-btn icon class="mb-2" v-bind="attrs" @click="generatePDFAll">
+									<v-icon color="red"> mdi-file </v-icon>
+					  			</v-btn>
 							</template>
 							
        						<v-card>
