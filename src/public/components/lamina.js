@@ -17,12 +17,17 @@ let lamina = Vue.component('lamina', {
     search: "",
     hidden: false,
     headers: [
-		{ text: 'Codigo', value: 'codigo' },
+		{
+			text: 'Codigo',
+			align: 'start',
+			sortable: false,
+			value: 'codigo',
+		},
 		{ text: 'Descripcion', value: 'descripcion' },
 		{ text: 'Medida', value: 'medida' },
 		{ text: 'Kilos', value: 'kilos' },
-		{ text: 'Entrada en kilos', value: 'entradaKilos' },
-		{ text: 'Salida en kilos', value: 'salidaKilos' },
+		{ text: 'Entrada kilos', value: 'entradaKilos' },
+		{ text: 'Salida kilos', value: 'salidaKilos' },
 		{ text: 'Cantidad existente', value: 'cantidadExistente' },
 		{ text: 'Acciones', value: 'actions', sortable: false },
     ],
@@ -125,6 +130,7 @@ let lamina = Vue.component('lamina', {
 
 	},
 
+	
 
 	cleanForm: function() {
 		this.editedItem = {
@@ -300,6 +306,7 @@ let lamina = Vue.component('lamina', {
 													v-model="editedItem.entradaKilos"
 													label="Entrada en kilos"
 													prepend-icon="mdi-call-made"
+													type="number"
 												></v-text-field>
 											</v-col>
 
@@ -308,14 +315,17 @@ let lamina = Vue.component('lamina', {
 													v-model="editedItem.salidaKilos"
 													label="Salida en Kilos"
 													prepend-icon="mdi-call-received"
+													type="number"
 												></v-text-field>
 											</v-col>
 
 											<v-col cols="6" >
 											<v-text-field
-												v-model="editedItem.cantidadExistente"
+												v-model="editedItem.cantidadExistente = editedItem.entradaKilos - editedItem.salidaKilos"
 												label="Cantidad existente"
 												prepend-icon="mdi-scale-unbalanced"
+											
+												type="number"
 											></v-text-field>
 										</v-col>
 

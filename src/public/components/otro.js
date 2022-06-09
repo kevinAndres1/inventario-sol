@@ -312,6 +312,7 @@ let otro = Vue.component('otro', {
 													v-model="editedItem.entrada"
 													label="Entrada"
 													prepend-icon="mdi-call-made"
+													type="number"
 												></v-text-field>
 											</v-col>
 
@@ -320,14 +321,16 @@ let otro = Vue.component('otro', {
 													v-model="editedItem.salida"
 													label="Salida"
 													prepend-icon="mdi-call-received"
+													type="number"
 												></v-text-field>
 											</v-col>
 
 											<v-col cols="6" >
 											<v-text-field
-												v-model="editedItem.cantidadExistente"
+												v-model="editedItem.cantidadExistente = editedItem.entrada - editedItem.salida"
 												label="Cantidad existente"
 												prepend-icon="mdi-scale-unbalanced"
+												type="number"
 											></v-text-field>
 										</v-col>
 

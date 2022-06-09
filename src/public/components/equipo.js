@@ -17,7 +17,12 @@ let equipo = Vue.component('equipo', {
     search: "",
     hidden: false,
     headers: [
-		{ text: 'Codigo', value: 'codigo' },
+		{
+			text: 'Codigo',
+			align: 'start',
+			sortable: false,
+			value: 'codigo',
+		},
 		{ text: 'descripcion', value: 'descripcion' },
 		{ text: 'cantidad', value: 'cantidad' },
 		{ text: 'entregado', value: 'entregado' },

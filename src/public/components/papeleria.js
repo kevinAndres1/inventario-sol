@@ -271,6 +271,7 @@ let papelerias = Vue.component('papelerias', {
 													v-model="editedItem.entradaKilos"
 													label="Entrada en kilos"
 													prepend-icon="mdi-call-made"
+													type="number"
 												></v-text-field>
 											</v-col>
 
@@ -279,14 +280,16 @@ let papelerias = Vue.component('papelerias', {
 													v-model="editedItem.salidaKilos"
 													label="Salida en Kilos"
 													prepend-icon="mdi-call-received"
+													type="number"
 												></v-text-field>
 											</v-col>
 
 											<v-col cols="6" >
 											<v-text-field
-												v-model="editedItem.cantidadExistente"
+												v-model="editedItem.cantidadExistente = editedItem.entradaKilos - editedItem.salidaKilos"
 												label="Cantidad existente"
 												prepend-icon="mdi-scale-unbalanced"
+												type="number"
 											></v-text-field>
 										</v-col>
 

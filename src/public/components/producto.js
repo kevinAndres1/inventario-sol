@@ -310,6 +310,7 @@ let producto = Vue.component('producto', {
 													v-model="editedItem.entradaUnidad"
 													label="Entrada unidad"
 													prepend-icon="mdi-call-made"
+													type="number"
 												></v-text-field>
 											</v-col>
 
@@ -318,14 +319,16 @@ let producto = Vue.component('producto', {
 													v-model="editedItem.salidaUnidad"
 													label="Salida unidad"
 													prepend-icon="mdi-call-received"
+													type="number"
 												></v-text-field>
 											</v-col>
 
 											<v-col cols="6" >
 											<v-text-field
-												v-model="editedItem.cantidadExistente"
+												v-model="editedItem.cantidadExistente = editedItem.entradaUnidad - editedItem.salidaUnidad"
 												label="Cantidad existente"
 												prepend-icon="mdi-scale-unbalanced"
+												type="number"
 											></v-text-field>
 										</v-col>
 
